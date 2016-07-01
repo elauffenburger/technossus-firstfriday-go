@@ -2,7 +2,7 @@ package types
 
 type Person struct {
     Name string
-    ssn string
+    ssn  string
 }
 
 func (p *Person) GetName() string {

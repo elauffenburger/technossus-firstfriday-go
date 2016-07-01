@@ -1,22 +1,22 @@
 package list
 
 import (
-	"reflect"
+    "reflect"
 )
 
 type List struct {
-  contents []interface{}
-  contentsType reflect.Type
+    contents     []interface{}
+    contentsType reflect.Type
 }
 
 func (l *List) Add(item interface{}) {
-  itemType := reflect.TypeOf(item)
+    itemType := reflect.TypeOf(item)
 
-  if itemType != l.contentsType {
-    panic("OH GOD NOOOOO")
-  }
+    if itemType != l.contentsType {
+        panic("OH GOD NOOOOO")
+    }
 
-  l.contents = append(l.contents, item)
+    l.contents = append(l.contents, item)
 }
 
 func (l *List) GetContents() []interface{} {
@@ -24,5 +24,5 @@ func (l *List) GetContents() []interface{} {
 }
 
 func ListFactory(contentsType reflect.Type) *List {
-	return &List{ contentsType: contentsType, contents: []interface{}{} }
+    return &List{contentsType: contentsType, contents: []interface{}{}}
 }
