@@ -29,16 +29,16 @@ func (s *SlidingWindow) AddJob() {
 }
 
 func (s *SlidingWindow) CompleteJob() {
-    // release token so next job can start
-    <- s.window
+	// release token so next job can start
+	<-s.window
 	s.numcompletedjobs++
 
-    if s.numcompletedjobs == s.numjobs {
-        s.Done <- true
-    }
+	if s.numcompletedjobs == s.numjobs {
+		s.Done <- true
+	}
 }
 
 func (s *SlidingWindow) GetToken() {
-    // get token -- this blocks if the window is full
-    s.window <- true
+	// get token -- this blocks if the window is full
+	s.window <- true
 }

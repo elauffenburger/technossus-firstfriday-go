@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/elauffenburger/technossus-firstfriday-go/demo/types"
 	"bufio"
+	"github.com/elauffenburger/technossus-firstfriday-go/demo/types"
 	"net"
 	"testing"
 )
@@ -91,19 +91,20 @@ func TestNetAndAdHocPolymorphismBecauseWhyNot(t *testing.T) {
 	readString(reader)
 }
 
-type Doer struct {}
+type Doer struct{}
+
 func (d *Doer) DoSomething() bool {
 	return true
 }
 
 func TestJustAdHocPolymorphism(t *testing.T) {
 	type doesStuff interface {
-	  DoSomething() bool
+		DoSomething() bool
 	}
 
-	var obj interface{} = &Doer {}
+	var obj interface{} = &Doer{}
 
-	if _,ok := obj.(doesStuff); !ok {
+	if _, ok := obj.(doesStuff); !ok {
 		t.Errorf("Expected *Doer -> doesStuff assertion to be to succeed")
 	}
 }

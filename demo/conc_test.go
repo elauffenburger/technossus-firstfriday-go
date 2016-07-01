@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/elauffenburger/technossus-firstfriday-go/demo/conc"
 	"testing"
 	"time"
-	"github.com/elauffenburger/technossus-firstfriday-go/demo/conc"
 )
 
 func TestChannel(t *testing.T) {
@@ -79,35 +79,35 @@ func TestManualSlidingWindow(t *testing.T) {
 	done := make(chan interface{})
 
 	numjobs := 20
-    completedjobs := 0
+	completedjobs := 0
 	for i := 0; i < numjobs; i++ {
 		go func(num int) {
-            // insert a token.  if the window is full, this will block
-            // until there is a spot available
+			// insert a token.  if the window is full, this will block
+			// until there is a spot available
 			window <- true
 
-            // log that we're doing some work
+			// log that we're doing some work
 			t.Logf("[%d] Working...", num)
-            // do some work
+			// do some work
 			time.Sleep(time.Duration(20) * time.Millisecond)
-            // log that we're done with work
-            t.Logf("  [%d] Done!", num)
+			// log that we're done with work
+			t.Logf("  [%d] Done!", num)
 
-            // mark job as complete
-            completedjobs++
+			// mark job as complete
+			completedjobs++
 
-            // release a token.  this will let one of the blocked threads
-            // get a token and do its work
+			// release a token.  this will let one of the blocked threads
+			// get a token and do its work
 			<-window
 
-            // if we're all done with the jobs, let the calling thread know
+			// if we're all done with the jobs, let the calling thread know
 			if completedjobs == numjobs {
 				done <- true
 			}
 		}(i)
 	}
 
-    // blocks until the jobs are done
+	// blocks until the jobs are done
 	<-done
 }
 
@@ -115,27 +115,27 @@ func TestSlidingWindowType(t *testing.T) {
 	windowsize := 3
 	numjobs := 20
 
-    window := conc.SlidingWindowFactory(windowsize, numjobs)
+	window := conc.SlidingWindowFactory(windowsize, numjobs)
 
 	for i := 0; i < numjobs; i++ {
 		go func(num int) {
-            // Get a token.  if the window is full, this will block
-            // until there is a spot available
+			// Get a token.  if the window is full, this will block
+			// until there is a spot available
 			window.GetToken()
 
-            // log that we're doing some work
+			// log that we're doing some work
 			t.Logf("[%d] Working...", num)
-            // do some work
+			// do some work
 			time.Sleep(time.Duration(20) * time.Millisecond)
-            // log that we're done with work
-            t.Logf("  [%d] Done!", num)
+			// log that we're done with work
+			t.Logf("  [%d] Done!", num)
 
-            // mark job as complete. this will let one of the blocked threads
-            // get a token and do its work
+			// mark job as complete. this will let one of the blocked threads
+			// get a token and do its work
 			window.CompleteJob()
 		}(i)
 	}
 
-    // blocks until the jobs are done
+	// blocks until the jobs are done
 	<-window.Done
 }
