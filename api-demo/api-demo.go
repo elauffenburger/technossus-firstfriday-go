@@ -15,6 +15,11 @@ var portFlag *string
 func init() {
     muxFlag = flag.String("mux", "", "[gorilla,default]")
     portFlag = flag.String("port", "8080", "the port to listen on")
+
+    flag.Usage = func() {
+        fmt.Println("\n------------------\nUsage of api-demo: ")
+        flag.PrintDefaults()
+    }
 }
 
 func main() {
