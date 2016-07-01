@@ -10,14 +10,17 @@ import (
 )
 
 var muxFlag *string
+var portFlag *string
 
 func init() {
     muxFlag = flag.String("mux", "", "[gorilla,default]")
+    portFlag = flag.String("port", "8080", "the port to listen on")
 }
 
 func main() {
     flag.Parse()
 
+    port := *portFlag
     muxer := getMuxFromArgs()
 
     switch muxer.(type) {
@@ -27,7 +30,8 @@ func main() {
         fmt.Println("Using default mux!")
     }
 
-    http.ListenAndServe(":8080", muxer)
+    fmt.Printf("Listening on port %s", port)
+    http.ListenAndServe(fmt.Sprintf(":%s", port), muxer)
 }
 
 func getMuxFromArgs() http.Handler {
