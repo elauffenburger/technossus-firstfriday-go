@@ -30,7 +30,7 @@ func (s *SlidingWindow) AddJob() {
 
 func (s *SlidingWindow) CompleteJob() {
     // release token so next job can start
-    <-s.window
+    <- s.window
     s.numcompletedjobs++
 
     if s.numcompletedjobs == s.numjobs {
