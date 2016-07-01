@@ -3,7 +3,7 @@ package test
 import (
 	"testing"
 	"time"
-	"./conc"
+	"github.com/elauffenburger/technossus-firstfriday-go/demo/conc"
 )
 
 func TestChannel(t *testing.T) {
